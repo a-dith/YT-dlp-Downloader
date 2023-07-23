@@ -16,7 +16,8 @@ man_ico="/usr/share/icons/custom/manjaro_128x128.png"
 yt_ico="/usr/share/icons/custom/yt-dlp.png"
 
 # YouTube format specification for the downloaded video and audio
-yt_format="bestvideo[height<=?1080]+bestaudio[ext=m4a]"
+#yt_format="bestvideo[height<=?1080]+bestaudio[ext=m4a]"
+yt_format="bestvideo[height<?1080]+bestaudio[ext=m4a]"
 
 # Output template for the downloaded file
 yt_op="$folder_name%(title)s_[%(id)s].%(ext)s"
@@ -37,18 +38,18 @@ link="$(xclip -o -selection clipboard)"
 
 # Check if the URL matches the specified YouTube pattern
 if [[ $link =~ $pattern ]]; then
-	# Get the name of the file to be downloaded using yt-dlp
-	name=$(yt-dlp --print filename -S ext:webm:m4a "$link")
-
-	# Display a notification indicating the start of the file download
-	notify-send -t 3000 -i $yt_ico "Downloading File:" "$name"
-
-	# Download the file using yt-dlp with specified options and output template
-	yt-dlp -w --no-mtime -f $yt_format -o $yt_op -i "$link"
-
-	# Display a notification indicating the completion of the file download
-	notify-send -t 3000 -i $yt_ico "Download Complete:" "$name"
+    # Get the name of the file to be downloaded using yt-dlp
+    urls+=("$link")
 else
-	# Display a notification if the provided link is not a YouTube link
-	notify-send -t 3000 -i $yt_ico "YouTube link not Found."
+    # Display a notification if the provided link is not a YouTube link
+    notify-send -t 3000 -i $yt_ico "YouTube link not Found."
+fi
+
+if [[ ${#urls[@]} -gt 0 ]]; then
+    for url in "${urls[@]}"; do
+        name=$(yt-dlp --get-title "$url")
+        notify-send -t 3000 -i $yt_ico "Downloading File:" "$name"
+        yt-dlp -w --no-mtime -f $yt_format -o $yt_op -i "$url"
+        notify-send -t 3000 -i $yt_ico "Download Complete:" "$name"
+    done
 fi
