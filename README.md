@@ -5,7 +5,7 @@ It checks if a valid YouTube link is available in the clipboard and downloads th
 
 The number 1 in picture shows activation area for mouse to extract the URL of the video.  
 The Top right in the picture shows the notification
-![yt-dlp example](https://github.com/a-dith/a-dith/blob/main/yt-dl_downloader.jpg "sample")
+![yt-dlp example](https://github.com/a-dith/YT-dlp-Downloader/blob/main/pics/yt-dl_downloader.jpg "sample")
 
 # Prerequisites
 
