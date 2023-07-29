@@ -1,7 +1,7 @@
     #!/bin/bash
 
 # Set the shell option to exit immediately if any command exits with a non-zero status
-set -e
+#set -e
 
 # Specify the folder name where the downloaded files will be saved
 folder_name="/home/e15/Downloads/"
@@ -67,7 +67,7 @@ if [[ -f $urls_file ]]; then
     mapfile -t urls < $urls_file
 fi
 
-if [[ ${#urls[@]} -gt 0 ]]; then
+while [[ ${#urls[@]} -gt 0 ]]; do
     for url in "${urls[@]}"; do
         # Create the lock file
         touch $lock_file
@@ -94,7 +94,7 @@ if [[ ${#urls[@]} -gt 0 ]]; then
         rm -f $lock_file
         exit 1
     fi
-fi
+done
 
 # Remove the lock file to release the lock
 rm -f $lock_file
