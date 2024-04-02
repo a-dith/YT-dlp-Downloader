@@ -37,7 +37,7 @@ notify-send -t 3000 -i $man_ico "Starting Yt-dlp"
 
 # Simulate a right-click using xdotool
 xdotool click 3
-sleep .1
+sleep .3
 
 # Simulate the 'l' key press to select the 'Copy Link Address' option
 xdotool key l
@@ -50,7 +50,8 @@ link="$(xclip -o -selection clipboard)"
 if [[ $link =~ $pattern ]]; then
     # Check if another instance of the script is already running
     if [[ -e $lock_file ]]; then
-        notify-send -t 3000 -i $yt_ico "Adding to queue."
+        title=$(yt-dlp --get-title "$link")
+        notify-send -t 3000 -i $yt_ico "Adding $title to queue."
         echo "$link" >> $urls_waiting_file
         exit 1
     else
