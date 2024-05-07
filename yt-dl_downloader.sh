@@ -1,19 +1,24 @@
-    #!/bin/bash
+#!/bin/bash
 
 # Set the shell option to exit immediately if any command exits with a non-zero status
-#set -e
+set -e
 
 # Specify the folder name where the downloaded files will be saved
-folder_name="/home/e15/Downloads/"
+folder_name="$HOME/Downloads/"
 
 # Regular expression pattern to match YouTube URLs
 pattern="^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 
-# Path to the custom Manjaro icon
-man_ico="/usr/share/icons/custom/manjaro_128x128.png"
+# Path to the custom icon when starting the script
+#man_ico="/usr/share/icons/custom/manjaro_128x128.png"
 
-# Path to the custom YouTube-dl icon
-yt_ico="/usr/share/icons/custom/yt-dlp.png"
+# Code to get the current directory of the script
+SC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+# echo "Script directory: $SC_DIR"
+man_ico="$SC_DIR/pics/yt-dlp.png"
+
+# Path to the custom YouTube thumbnail icon
+yt_ico="/tmp/yt-dlp-thumbnail.jpg"
 
 # YouTube format specification for the downloaded video and audio
 #yt_format="bestvideo[height<=?1080]+bestaudio[ext=m4a]"
@@ -72,6 +77,7 @@ while [[ ${#urls[@]} -gt 0 ]]; do
     for url in "${urls[@]}"; do
         # Create the lock file
         touch $lock_file
+	yt-dlp --skip-download --write-thumbnail --convert-thumbnails jpg --output "/tmp/yt-dlp-thumbnail" $url
         name=$(yt-dlp --get-title "$url")
         notify-send -t 3000 -i $yt_ico "Downloading File:" "$name"
         yt-dlp -w --no-mtime -f $yt_format -o $yt_op -i "$url"
