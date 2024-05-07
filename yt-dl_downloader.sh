@@ -9,19 +9,17 @@ folder_name="$HOME/Downloads/"
 # Regular expression pattern to match YouTube URLs
 pattern="^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 
-# Path to the custom icon when starting the script
-#man_ico="/usr/share/icons/custom/manjaro_128x128.png"
-
 # Code to get the current directory of the script
 SC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # echo "Script directory: $SC_DIR"
+
+# Path to the custom icon when starting the script
 man_ico="$SC_DIR/pics/yt-dlp.png"
 
 # Path to the custom YouTube thumbnail icon
 yt_ico="/tmp/yt-dlp-thumbnail.jpg"
 
 # YouTube format specification for the downloaded video and audio
-#yt_format="bestvideo[height<=?1080]+bestaudio[ext=m4a]"
 yt_format="bestvideo[height<?1080]+bestaudio[ext=m4a]"
 
 # Output template for the downloaded file
