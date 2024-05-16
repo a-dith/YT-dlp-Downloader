@@ -54,7 +54,7 @@ if [[ $link =~ $pattern ]]; then
     # Check if another instance of the script is already running
     if [[ -e $lock_file ]]; then
         title=$(yt-dlp --get-title "$link")
-        notify-send -t 3000 -i $yt_ico "Adding $title to queue."
+        notify-send -t 3000 -i $yt_ico "Adding to queue" "$title"
         echo "$link" >> $urls_waiting_file
         exit 1
     else
